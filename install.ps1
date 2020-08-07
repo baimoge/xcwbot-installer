@@ -96,6 +96,7 @@ if ($install_python) {
     Write-Output "正在安装 python，请耐心等待..."
     Invoke-WebRequest https://mirrors.huaweicloud.com/python/3.8.5/python-3.8.5-amd64.exe -OutFile .\python-3.8.5.exe
     Start-Process -Wait -FilePath .\python-3.8.5.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1 Include_test=0"
+    $env:Path += ";C:\Python38\Scripts;C:\Python38"
     Write-Output "python 安装成功"
 }
 if ($install_git) {
@@ -106,8 +107,9 @@ if ($install_git) {
     Write-Output "git 安装成功"
 }
 
-# 拷贝插件
+# 拷贝插件和资源文件
 Copy-Item .\插件\*.jar .\mirai\plugins
+Copy-Item .\res $PSScriptRoot –recurse -Force
 Set-Location .\HoshinoBot\hoshino\modules\yobot
 
 # 从 github 拉取 yobot
@@ -117,9 +119,9 @@ git submodule add https://gitee.com/yobot/yobot.git
 # 安装 python 依赖
 Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
 Set-Location ..\..\..\..\
-py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
-py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
-py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
 
 # 写入 miraiOK 配置文件
 if (Test-Path .\mirai\config.txt) {
