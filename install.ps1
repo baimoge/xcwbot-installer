@@ -118,8 +118,8 @@ git submodule add https://gitee.com/yobot/yobot.git
 Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
 Set-Location ..\..\..\..\
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
+py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
+py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
 
 # 写入 miraiOK 配置文件
 if (Test-Path .\mirai\config.txt) {
