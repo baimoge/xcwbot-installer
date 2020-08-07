@@ -86,7 +86,7 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/QA.txt -OutFile .\常见问题解答
 
 # 下载安装程序
 Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待..."
-Invoke-WebRequest https://oscarlongsslz.yobot.win/one-key-xcw.zip -OutFile one-key-xcw.zip
+Invoke-WebRequest https://oscarlongsslz.yobot.win/one_key_xcw.zip -OutFile one-key-xcw.zip
 Expand-Archive one-key-xcw.zip -DestinationPath .\
 Invoke-WebRequest http://ftp.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
 
