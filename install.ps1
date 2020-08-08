@@ -86,7 +86,7 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/QA.txt -OutFile .\常见问题解答
 
 # 下载安装程序
 Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待..."
-Invoke-WebRequest "https://alphaone-my.sharepoint.cn/personal/yu_vip_tg/_layouts/15/download.aspx?UniqueId=54f51f3a-6dcc-4132-8121-9ad53aec3243&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYWxwaGFvbmUtbXkuc2hhcmVwb2ludC5jbkAzYjFjODFiMS1kMTU2LTRhZjktYjE2OS1hZTA4MTI4YzAzOTYiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNTk2ODA5ODU4IiwiZXhwIjoiMTU5NjgxMzQ1OCIsImVuZHBvaW50dXJsIjoiYWlEUjJ0eVRaWDBBSjZvVHdCUFN2aUFySUhGSUlJZTB3aTQxWG95S01rQT0iLCJlbmRwb2ludHVybExlbmd0aCI6IjE0MCIsImlzbG9vcGJhY2siOiJUcnVlIiwiY2lkIjoiWVdJeU0yUXpPR0l0WXpCbFl5MDBNV0k0TFRnNU5XTXRPRGhsTWpKbVkyTTVZakZqIiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiIsInNpdGVpZCI6Ik0ySTRNbU16WkRrdFpXWmlaUzAwWWpnekxUaGxaV1F0Tmprd09HVmxZbVJpTXpsbCIsImFwcF9kaXNwbGF5bmFtZSI6IlBRIHN5bmMiLCJzaWduaW5fc3RhdGUiOiJbXCJrbXNpXCJdIiwiYXBwaWQiOiI0ZDY3MmZhZi00OTU2LTQyNmUtYTMzMy0yNjQwNGVmNTliNGYiLCJ0aWQiOiIzYjFjODFiMS1kMTU2LTRhZjktYjE2OS1hZTA4MTI4YzAzOTYiLCJ1cG4iOiJ5dUB2aXAudGciLCJwdWlkIjoiMTAwMzMyMzBDNTc3QUM5OCIsImNhY2hla2V5IjoiMGguZnxtZW1iZXJzaGlwfDEwMDMzMjMwYzU3N2FjOThAbGl2ZS5jb20iLCJzY3AiOiJhbGxmaWxlcy53cml0ZSIsInR0IjoiMiIsInVzZVBlcnNpc3RlbnRDb29raWUiOm51bGx9.WCtJYnNpRFVKY1V4ejVGTVpSNk9OWkZJYXpYMy9zWnR1bnFleDU5Skg1az0&ApiVersion=2.0" -OutFile one-key-xcw.zip
+Invoke-WebRequest https://oscarlongsslz.yobot.win/one-key-xcw.zip -OutFile one-key-xcw.zip
 Expand-Archive one-key-xcw.zip -DestinationPath .\
 Invoke-WebRequest http://ftp.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
 
@@ -116,11 +116,78 @@ Set-Location .\HoshinoBot\hoshino\modules\yobot
 git init
 git submodule add https://gitee.com/yobot/yobot.git
 
-# 结束当前脚本，开启新脚本
+# 生成随机 access_token
+$token = -join ((65..90) + (97..122) | Get-Random -Count 16 | ForEach-Object { [char]$_ })
+
+
+# 写入 miraiOK 配置文件
 Set-Location ..\..\..\..\
+New-Item -Path .\mirai\config.txt -ItemType File -Value "----------`nlogin ${qqid} ${qqpassword}`n"
+
+# 写入 cqmiraihttp 配置文件
+New-Item -Path .\mirai\plugins\CQHTTPMirai\setting.yml -ItemType File -Value @"
+"${qqid}":
+  ws_reverse:
+  -  enable: true
+     postMessageFormat: string
+     reverseHost: 127.0.0.1
+     reversePort: ${port}
+     reversePath: /ws/
+     accessToken: ${token}
+     reconnectInterval: 3000
+  http:
+    enable: false   
+    host: 0.0.0.0   
+    port: 5700   
+    accessToken: ""   
+    postUrl: ""
+    postMessageFormat: string
+    secret: ""
+  ws:
+    enable: false
+    postMessageFormat: string
+    accessToken: ""
+    wsHost: "0.0.0.0"
+    wsPort: 6700
+"@
+
+# 创建文件夹(二度)
+New-Item -ItemType Directory -Path .\HoshinoBot\hoshino\modules\yobot\yobot\src\client\yobot_data
+
+# 写入 yobot 配置文件
+New-Item -Path .\HoshinoBot\hoshino\modules\yobot\yobot\src\client\yobot_data\yobot_config.json -ItemType File -Value @"
+{
+    "port": "${port}",
+    "access_token": "${token}",
+    "super-admin": [
+        ${hostqqid}
+    ]
+}
+"@
+
+# 替换 yobot 帮助文件
+Copy-Item .\res\help.html .\HoshinoBot\hoshino\modules\yobot\yobot\src\client\public\template
+
+# 写入 hoshino 配置文件
+Add-Content .\HoshinoBot\hoshino\config\__bot__.py "`r`nACCESS_TOKEN='${token}'`r`nPORT =$port`r`nSUPERUSERS = [$hostqqid]`r`nRES_DIR = r'$PSScriptRoot\res'`r`n"
+
+# 创建快捷方式
+$desktop = [Environment]::GetFolderPath("Desktop")
+
+$WshShell = New-Object -comObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("${desktop}\mirai-请先打开这个.lnk")
+$Shortcut.TargetPath = "${pwd}\mirai\miraiOK.exe"
+$Shortcut.WorkingDirectory = "${pwd}\mirai\"
+$Shortcut.Save()
+
+$WshShell = New-Object -comObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("${desktop}\启动小仓唯.lnk")
+$Shortcut.TargetPath = "${pwd}\HoshinoBot\start.bat"
+$Shortcut.WorkingDirectory = "${pwd}\HoshinoBot\"
+$Shortcut.Save()
+
+# 下接install2.ps1
 Invoke-WebRequest http://ftp.pcrbotlink.top/install2.ps1 -OutFile .\install2.ps1
 powershell -File install2.ps1
 exit
-
-#下接install2.ps1
 
