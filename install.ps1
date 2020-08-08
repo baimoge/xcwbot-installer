@@ -187,6 +187,7 @@ $Shortcut.WorkingDirectory = "${pwd}\HoshinoBot\"
 $Shortcut.Save()
 
 # 下接install2.ps1
+Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
 Invoke-WebRequest http://ftp.pcrbotlink.top/install2.ps1 -OutFile .\install2.ps1
 powershell -File install2.ps1
 exit
