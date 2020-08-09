@@ -2,8 +2,17 @@
 
 $host.ui.RawUI.WindowTitle = "小仓唯bot一键安装脚本"
 
+# 设置管理员权限运行
+$currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
+$testadmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+if ($testadmin -eq $false) {
+    Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
+    exit $LASTEXITCODE
+}
+
 # 欢迎
 Write-Output '欢迎使用小仓唯bot一键安装脚本！小仓唯bot是基于 hoshino 与 yobot 的一个综合性公主连结机器人，功能繁多，操作简单，安装便捷。
+具体功能表可查看：https://xcw.pcrbotlink.top/help.html
 安装过程马上开始，全程耗时较长，预计需要30分钟，请耐心等待...'
 
 # 检查运行环境
@@ -185,6 +194,14 @@ $Shortcut = $WshShell.CreateShortcut("${desktop}\启动小仓唯.lnk")
 $Shortcut.TargetPath = "${pwd}\HoshinoBot\start.bat"
 $Shortcut.WorkingDirectory = "${pwd}\HoshinoBot\"
 $Shortcut.Save()
+
+# 创建自动重启脚本
+New-Item -Path .\restart.ps1 -ItemType File -Value "taskkill /im miraiOK.exe /f
+taskkill /im java.exe /f
+Start-Process -FilePath $PSScriptRoot\xcwbot\mirai\miraiOK.exe -WorkingDirectory $PSScriptRoot\xcwbot\mirai"
+
+# 创建自动重启计划任务
+schtasks /create /tn "mirai 自动重启" /ru system /tr $PSScriptRoot\restart.ps1 /sc hourly /mo 2
 
 # 下接install2.ps1
 Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
