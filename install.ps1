@@ -201,7 +201,7 @@ taskkill /im java.exe /f
 Start-Process -FilePath $PSScriptRoot\xcwbot\mirai\miraiOK.exe -WorkingDirectory $PSScriptRoot\xcwbot\mirai"
 
 # 创建自动重启计划任务
-schtasks /create /tn "mirai 自动重启" /ru system /tr $PSScriptRoot\restart.ps1 /sc hourly /mo 2
+schtasks /create /tn "mirai 自动重启" /ru system /tr $PSScriptRoot\xcwbot\restart.ps1 /sc hourly /mo 2
 
 # 下接install2.ps1
 Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
