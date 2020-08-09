@@ -21,4 +21,4 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/install.ps1 -OutFile .\install.ps1 ;
 
 ### Linux
 
-**没有linux，对不起，我太菜了**
+**在学了，在学了(指打开虚拟机安装镜像**
