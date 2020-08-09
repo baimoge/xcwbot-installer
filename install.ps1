@@ -2,14 +2,6 @@
 
 $host.ui.RawUI.WindowTitle = "小仓唯bot一键安装脚本"
 
-# 设置管理员权限运行
-$currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
-$testadmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-if ($testadmin -eq $false) {
-    Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
-    exit $LASTEXITCODE
-}
-
 # 欢迎
 Write-Output '欢迎使用小仓唯bot一键安装脚本！小仓唯bot是基于 hoshino 与 yobot 的一个综合性公主连结机器人，功能繁多，操作简单，安装便捷。
 具体功能表可查看：https://xcw.pcrbotlink.top/help.html
@@ -200,10 +192,10 @@ New-Item -Path .\restart.ps1 -ItemType File -Value "taskkill /im miraiOK.exe /f
 taskkill /im java.exe /f
 Start-Process -FilePath $PSScriptRoot\xcwbot\mirai\miraiOK.exe -WorkingDirectory $PSScriptRoot\xcwbot\mirai"
 
-# 创建自动重启计划任务
-schtasks /create /tn "mirai 自动重启" /ru system /tr $PSScriptRoot\xcwbot\restart.ps1 /sc hourly /mo 2
+# 记录自动重启脚本的绝对路径
+New-Item -Path C:\Users\Public\Documents\scriptpath.txt -ItemType File -Value "$PSScriptRoot\xcwbot\restart.ps1"
 
-# 下接install2.ps1
+# 重新启动一个进程以刷新git和python安装状态
 Write-Output "正在安装依赖，预计需要5~15分钟，请耐心等待..."
 Invoke-WebRequest http://ftp.pcrbotlink.top/install2.ps1 -OutFile .\install2.ps1
 powershell -File install2.ps1
