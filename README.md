@@ -1,6 +1,10 @@
 # 小仓唯bot 一键安装脚本
 
-## Windows
+功能表：https://xcw.pcrbotlink.top/help.html
+
+## 安装步骤
+
+### Windows
 
 **仅限 Windows 8 64位 以上系统运行**
 
@@ -15,6 +19,6 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/install.ps1 -OutFile .\install.ps1 ;
 **注：提示"无法加载文件 ./install.ps1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 "get-help about_signing"。"？
       解决方法：管理员运行powershell，执行"set-ExecutionPolicy RemoteSigned"，选择"[Y] 是(Y)"。**
 
-## Linux
+### Linux
 
 **没有linux，对不起，我太菜了**
