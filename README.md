@@ -4,6 +4,8 @@
 
 功能表：https://xcw.pcrbotlink.top/help.html
 
+视频教程：https://www.bilibili.com/video/av244231755
+
 ## 安装步骤
 
 ### Windows
