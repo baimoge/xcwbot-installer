@@ -1,5 +1,7 @@
 # 小仓唯bot 一键安装脚本
 
+小仓唯bot是基于 hoshino 与 yobot 的一个综合性公主连结机器人，功能繁多，操作简单，安装便捷，并且集成了很多当前流行的 bot 插件。
+
 功能表：https://xcw.pcrbotlink.top/help.html
 
 ## 安装步骤
@@ -21,4 +23,5 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/install.ps1 -OutFile .\install.ps1 ;
 
 ### Linux
 
-**在学了，在学了(指打开虚拟机安装镜像**
+**目前暂时没有小仓唯的Docker镜像，可以暂时使用@LQBing的原版yobot+Hoshino镜像：
+https://github.com/LQBing/YoshinoBotDeploy**
