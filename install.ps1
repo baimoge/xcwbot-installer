@@ -86,10 +86,16 @@ New-Item -ItemType Directory -Path .\mirai\plugins, .\mirai\plugins\CQHTTPMirai,
 Invoke-WebRequest http://ftp.pcrbotlink.top/QA.txt -OutFile .\常见问题解答.txt
 
 # 下载安装程序
-Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待..."
-Invoke-WebRequest http://boost.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待...
+若下载失败，请手动从帮助文件中的地址下载并放置在xcwbot文件夹下。"
+if (Test-Path one-key-xcw.zip){
+    write-Output "检测到安装程序已经存在，跳过下载..."
+}
+else{
+    Invoke-WebRequest https://boost.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+}
 Expand-Archive one-key-xcw.zip -DestinationPath .\
-Invoke-WebRequest http://boost.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
+Invoke-WebRequest http://ftp.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
