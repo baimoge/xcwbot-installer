@@ -25,5 +25,5 @@ Invoke-WebRequest http://ftp.pcrbotlink.top/install.ps1 -OutFile .\install.ps1 ;
 
 ### Linux
 
-**目前暂时没有小仓唯的Docker镜像，可以暂时使用@LQBing的原版yobot+Hoshino镜像：
+**目前暂时没有小仓唯的Docker镜像，可以先使用@LQBing的原版yobot+Hoshino镜像：
 https://github.com/LQBing/YoshinoBotDeploy**
