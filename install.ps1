@@ -5,6 +5,10 @@ $host.ui.RawUI.WindowTitle = "小仓唯bot一键安装脚本"
 # 欢迎
 Write-Output '欢迎使用小仓唯bot一键安装脚本！小仓唯bot是基于 hoshino 与 yobot 的一个综合性公主连结机器人，功能繁多，操作简单，安装便捷。
 具体功能表可查看：https://xcw.pcrbotlink.top/help.html
+如安装遇到问题请请查看同目录下的常见问题解答.txt！！！
+在开始之前，建议学一下英语和中文，再学一下搜索引擎的使用方法。
+请牢记：重启可以解决50%的问题，重装可以解决90%的问题，遇事不决请先重启。
+另外，强烈建议在服务器上部署，如在本地部署出现问题概不负责！！！
 安装过程马上开始，全程耗时较长，预计需要30分钟，请耐心等待...'
 
 # 检查运行环境
@@ -28,8 +32,10 @@ if (Test-Path .\xcwbot) {
     $reinstall = Read-Host '请输入 y 或 n (y/n)'
     Switch ($reinstall) { 
         Y { Remove-Item .\xcwbot -Recurse -Force } 
-        N { exit } 
-        Default { exit } 
+        N { Write-Output "请选择y删除文件后继续"
+            exit } 
+        Default { Write-Output "请选择y删除文件后继续"
+            exit } 
     } 
 }
 
@@ -73,7 +79,8 @@ write-Output "您机器人的QQ号为${qqid},密码为${qqpassword},主人QQ号�
 [void][System.Console]::ReadKey($true)
 write-Output "提示：只要报错之后还能继续执行下去，那就可以暂时忽略，若最后还不能正常运行，再考虑排错，运行bot时同理。
 另外，安装python和git时需要管理员权限，若没有自动弹出授权窗口，请看看任务栏。
-如您还遇到了其他问题，请查看同目录下的常见问题解答.txt
+如您还遇到了其他问题，请查看同目录下的常见问题解答.txt！
+请牢记：重启可以解决50%的问题，重装可以解决90%的问题，遇事不决请先重启。
 了解后请按任意键继续。"
 [void][System.Console]::ReadKey($true)
 
@@ -95,7 +102,7 @@ else{
     Invoke-WebRequest https://boost.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
 }
 Expand-Archive one-key-xcw.zip -DestinationPath .\
-Invoke-WebRequest http://ftp.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
+Invoke-WebRequest https://boost.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
