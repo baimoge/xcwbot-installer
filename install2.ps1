@@ -1,7 +1,11 @@
-﻿# 上续install.ps1
+﻿# 上接install.ps1
 
 # 安装 python 依赖
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
+if (!$?) {
+    write-Output "调用python失败，请检查python是否完整安装或是否有多个版本，建议全部卸载之后重启脚本再试。"
+    break
+}
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
 

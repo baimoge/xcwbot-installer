@@ -1,0 +1,67 @@
+安装程序手动下载地址：
+https://disk.yobot.win/#/s/y0F9
+提取码：l3ficy
+
+在开始之前，建议学一下英语和中文，再学一下搜索引擎的使用方法。
+
+请牢记：重启可以解决50%的问题，重装可以解决90%的问题，遇事不决请先重启。
+
+1.提示"无法将“pip”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确
+，然后再试一次。"?
+解决方法：卸载python后重新安装python3.8之后再试。手动安装时请一定选上"Add Python 3.8 to PATH"。
+
+2.提示"无法将“git”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确
+，然后再试一次。"?
+解决方法：卸载git后重新安装git之后再试。
+
+3.提示"无法加载文件 ./install.ps1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 "get-help about_signing"。"？
+解决方法：管理员运行powershell，执行"set-ExecutionPolicy RemoteSigned"，选择"[Y] 是(Y)"。
+
+4.有哪些功能呢？
+解决方法：查看https://xcw.pcrbotlink.top/help.html或者在群里面发送"帮助"。
+
+5.没法打开后台页面？
+解决方法：请根据https://yobot.win/usage/cannot-open-webpage/逐项排查。
+
+6.运行一段时间后就私聊就不回复了？或者是只有电脑/手机发的才回复？
+解决方法：固有缺陷，请等待作者更新框架。
+
+7.提示"竞技场查询出错？"
+解决方法：参照https://github.com/Ice-Cirno/HoshinoBot#pcrdfans%E6%8E%88%E6%9D%83key
+
+8.搭建好后没有回复？
+解决方法：检查安装时用的监听端口是否被占用(miraiOK.exe窗口中有没有出现HTTP API: java.net.BindException:Address already in use: bind)；
+	检查两个窗口中有没有同步新消息；
+	是不是没有加机器人好友？
+
+9.成功登陆，后台有回复记录，但是聊天窗口中看不到？
+解决方法：如果是第一次登陆的新号，请先这样挂两三天到一周，便可解决。
+
+10.机器人经常自说自话？
+解决方法：在群中发送"禁用 tencent_ai"。
+
+11.买药小助手提前了一个小时提醒？
+解决方法：在群中发送"禁用 hourcallyaojp"
+
+12.提示导入模块失败或者没有模块？(如果你不确定是不是这个，那也请做一下)
+解决方法：在xcwbot文件夹里面，按Shift同时点右键，选择"在此处打开PowerShell窗口"，执行以下三条命令：
+py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
+py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
+py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/eqa/requirements.txt
+
+13.提示websocket连接出错，...？
+解决方法：你是不是只开了一个窗口(miari-首先启动这个)？还要把另外一个也打开(启动小仓唯)。
+	你是不是瞎改了配置？
+	重启两个试试？
+	是不是监听的端口被占用了？
+
+14.脚本安装中提示找不到路径？
+解决方法：你的安装包下载失败了，请手动下载安装包并置于xcwbot文件夹中，地址见本文件头部。
+
+其他的问题，可以参见：
+https://github.com/Ice-Cirno/HoshinoBot
+https://yobot.win/usage/faq/
+
+或者加群770947581问dalao
+
+made by Github/crovo007

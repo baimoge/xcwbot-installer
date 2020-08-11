@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Inquire"
+﻿$ErrorActionPreference = "SilentlyContinue"
 
 $host.ui.RawUI.WindowTitle = "小仓唯bot一键安装脚本"
 
@@ -93,16 +93,59 @@ New-Item -ItemType Directory -Path .\mirai\plugins, .\mirai\plugins\CQHTTPMirai,
 Invoke-WebRequest http://ftp.pcrbotlink.top/QA.txt -OutFile .\常见问题解答.txt
 
 # 下载安装程序
-Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待...
-若下载失败，请手动从帮助文件中的地址下载并放置在xcwbot文件夹下。"
-if (Test-Path one-key-xcw.zip){
+Write-Output "正在下载安装程序，体积较大，耗时会较长，请耐心等待..."
+if (Test-Path one-key-xcw.zip) {
     write-Output "检测到安装程序已经存在，跳过下载..."
 }
-else{
+else {
+    write-Output "正在从第1个源下载..."
     Invoke-WebRequest https://boost.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+    If (!$?) {
+        write-Output "下载失败，正在从第2个源下载..."
+        Remove-Item one-key-xcw.zip -Force
+        Invoke-WebRequest https://boost3.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+        if (!$?) {
+            write-Output "下载失败，正在从第3个源下载..."
+            Remove-Item one-key-xcw.zip -Force
+            Invoke-WebRequest https://oscarlongsslz.yobot.win/one-key-xcw.zip -OutFile one-key-xcw.zip
+            if (!$?) {
+                write-Output "下载失败，正在从第4个源下载..." 
+                Remove-Item one-key-xcw.zip -Force
+                Invoke-WebRequest https://boost2.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+                if (!$?) {
+                    write-Output "下载失败，正在从第5个源下载..." 
+                    Remove-Item one-key-xcw.zip -Force
+                    Invoke-WebRequest https://download.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+                    if (!$?) {
+                        write-Output "下载失败，正在从第6个源下载..." 
+                        Remove-Item one-key-xcw.zip -Force
+                        Invoke-WebRequest http://ftp.pcrbotlink.top/one-key-xcw.zip -OutFile one-key-xcw.zip
+                        if(!$?){
+                            write-Output "从所有源下载均失败，请手动从帮助文件中的地址下载安装程序并放置在xcwbot文件夹下，请注意不要解压。"
+                            Remove-Item one-key-xcw.zip -Force
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
+    write-Output "下载成功！" 
 }
+
+# SHA256校验
+$OriginFileHash = "A24B55EEBA089A0F179DBA3BE91AA96A55D361EE131B92DE25EC597C452F5AF2"
+$DownloadFileHash = (Get-FileHash .\one-key-xcw.zip -Algorithm SHA256).Hash
+if ($OriginFileHash -ceq $DownloadFileHash){
+}
+else {
+    write-Output "压缩文件损坏，请重启脚本重新下载"
+    break
+}
+
+write-Output "正在解压安装程序..."
 Expand-Archive one-key-xcw.zip -DestinationPath .\
-Invoke-WebRequest https://boost.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
+Invoke-WebRequest http://ftp.pcrbotlink.top/miraiOK_windows_386.exe -OutFile .\mirai\miraiOK.exe
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
@@ -128,6 +171,10 @@ Set-Location .\HoshinoBot\hoshino\modules\yobot
 
 # 从 github 拉取 yobot
 git init
+if(!$?){
+    write-Output "调用git失败，请检查git是否完整安装，建议卸载之后重启脚本再试。"
+    break
+}
 git submodule add https://gitee.com/yobot/yobot.git
 
 # 生成随机 access_token
