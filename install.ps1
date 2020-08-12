@@ -139,7 +139,7 @@ $DownloadFileHash = (Get-FileHash .\one-key-xcw.zip -Algorithm SHA256).Hash
 if ($OriginFileHash -ceq $DownloadFileHash){
 }
 else {
-    write-Output "压缩文件损坏，请重启脚本重新下载"
+    write-Output "压缩文件损坏，请重启脚本重新下载。若反复出现，请手动从帮助文件中的地址下载安装程序并放置在xcwbot文件夹下，请注意不要解压。"
     break
 }
 

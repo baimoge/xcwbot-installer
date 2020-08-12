@@ -43,7 +43,7 @@ https://disk.yobot.win/#/s/y0F9
 11.买药小助手提前了一个小时提醒？
 解决方法：在群中发送"禁用 hourcallyaojp"
 
-12.提示导入模块失败或者没有模块？(如果你不确定是不是这个，那也请做一下)
+12.提示导入模块失败或者没有模块(ERROR:no module named xxx/failed to import xxx from xxx)？(如果你不确定是不是这个，那也请做一下)
 解决方法：在xcwbot文件夹里面，按Shift同时点右键，选择"在此处打开PowerShell窗口"，执行以下三条命令：
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/requirements.txt
 py -3.8 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r HoshinoBot/hoshino/modules/yobot/yobot/src/client/requirements.txt
